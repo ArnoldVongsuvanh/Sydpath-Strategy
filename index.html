@@ -6,7 +6,7 @@
 
 <meta charset="UTF-8"> 
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> 
 
 <title>SydPath Strategy Dashboard 2026</title> 
 
@@ -16,683 +16,193 @@
 
   :root { 
 
-    --navy:    #1F3864; 
+    --navy:#1F3864;--blue:#2E74B5;--ice:#EBF3FB;--white:#FFFFFF;--slate:#4A5568; 
 
-    --blue:    #2E74B5; 
+    --green:#2D7D46;--green-bg:#E8F5EC;--amber:#B45309;--amber-bg:#FEF3C7; 
 
-    --ice:     #EBF3FB; 
+    --red:#C0392B;--red-bg:#FDECEA;--orange:#C2410C;--orange-bg:#FFF0EB; 
 
-    --white:   #FFFFFF; 
+    --darkred:#7F1D1D;--darkred-bg:#FEE2E2;--line:#E2EBF5; 
 
-    --slate:   #4A5568; 
-
-    --green:   #2D7D46; 
-
-    --green-bg:#E8F5EC; 
-
-    --amber:   #B45309; 
-
-    --amber-bg:#FEF3C7; 
-
-    --red:     #C0392B; 
-
-    --red-bg:  #FDECEA; 
-
-    --orange:  #C2410C; 
-
-    --orange-bg:#FFF0EB; 
-
-    --darkred: #7F1D1D; 
-
-    --darkred-bg:#FEE2E2; 
-
-    --line:    #E2EBF5; 
+    --page-pad:clamp(16px,4vw,48px); 
 
   } 
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } 
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;} 
 
-  body { 
+  body{font-family:'DM Sans',sans-serif;background:#F4F7FB;color:var(--navy);min-height:100vh;-webkit-text-size-adjust:100%;} 
 
-    font-family: 'DM Sans', sans-serif; 
+  header{background:var(--navy);padding:clamp(16px,4vw,28px) var(--page-pad);display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:8px;border-bottom:3px solid var(--blue);} 
 
-    background: #F4F7FB; 
+  header .logo-block h1{font-family:'DM Serif Display',serif;font-size:clamp(18px,4vw,26px);color:#fff;letter-spacing:-0.3px;} 
 
-    color: var(--navy); 
+  header .logo-block p{font-size:clamp(10px,2.5vw,12px);color:#93B8D8;margin-top:4px;font-weight:300;letter-spacing:0.4px;text-transform:uppercase;} 
 
-    min-height: 100vh; 
+  header .meta{font-size:clamp(10px,2.5vw,11px);color:#93B8D8;text-align:right;line-height:1.8;} 
 
-  } 
+  .filter-bar{background:var(--white);border-bottom:1px solid var(--line);padding:12px var(--page-pad);display:flex;align-items:center;gap:8px;flex-wrap:wrap;overflow-x:auto;-webkit-overflow-scrolling:touch;} 
 
-  
+  .filter-bar span{font-size:11px;color:var(--slate);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;} 
 
-  /* ── HEADER ── */ 
+  .filter-btn{padding:6px 14px;border-radius:20px;border:1.5px solid var(--line);background:transparent;font-family:'DM Sans',sans-serif;font-size:clamp(11px,2.5vw,12px);color:var(--slate);cursor:pointer;transition:all 0.18s;white-space:nowrap;touch-action:manipulation;min-height:36px;} 
 
-  header { 
+  .filter-btn:hover,.filter-btn:active{border-color:var(--blue);color:var(--blue);} 
 
-    background: var(--navy); 
+  .filter-btn.active{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:500;} 
 
-    padding: 28px 48px 24px; 
+  .page{padding:clamp(16px,4vw,32px) var(--page-pad) clamp(24px,6vw,48px);} 
 
-    display: flex; 
+  .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;} 
 
-    align-items: flex-end; 
+  @media(max-width:480px){.kpi-strip{grid-template-columns:repeat(2,1fr);}} 
 
-    justify-content: space-between; 
+  .kpi-card{background:var(--white);border-radius:10px;padding:clamp(12px,3vw,16px) clamp(10px,2.5vw,14px);border:1px solid var(--line);cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;touch-action:manipulation;} 
 
-    border-bottom: 3px solid var(--blue); 
+  .kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue);} 
 
-  } 
+  .kpi-card:active{transform:scale(0.97);} 
 
-  header .logo-block h1 { 
+  .kpi-card.active-cat::before{background:var(--navy);height:4px;} 
 
-    font-family: 'DM Serif Display', serif; 
+  .kpi-card.active-cat{box-shadow:0 4px 16px rgba(31,56,100,0.18);} 
 
-    font-size: 26px; 
+  .kpi-card .num{font-family:'DM Serif Display',serif;font-size:clamp(20px,5vw,28px);color:var(--navy);line-height:1;} 
 
-    color: #fff; 
+  .kpi-card .label{font-size:clamp(9px,2vw,10px);color:var(--slate);margin-top:5px;line-height:1.4;} 
 
-    letter-spacing: -0.3px; 
+  .kpi-card .cat-icon{font-size:clamp(13px,3vw,16px);margin-bottom:5px;} 
 
-  } 
+  .two-col{display:grid;grid-template-columns:3fr 2fr;gap:20px;margin-bottom:20px;} 
 
-  header .logo-block p { 
+  .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:20px;} 
 
-    font-size: 12px; 
+  @media(max-width:900px){.two-col,.three-col{grid-template-columns:1fr;}} 
 
-    color: #93B8D8; 
+  @media(max-width:900px){.two-col>*,.three-col>*{margin-bottom:16px;}} 
 
-    margin-top: 4px; 
+  .panel{background:var(--white);border-radius:12px;border:1px solid var(--line);overflow:hidden;} 
 
-    font-weight: 300; 
+  .panel-header{padding:clamp(12px,3vw,16px) clamp(14px,3vw,20px) 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;} 
 
-    letter-spacing: 0.6px; 
+  .panel-header h2{font-size:clamp(12px,2.5vw,13px);font-weight:600;color:var(--navy);} 
 
-    text-transform: uppercase; 
+  .panel-header .sub{font-size:clamp(10px,2vw,11px);color:#94A3B8;} 
 
-  } 
+  .panel-body{padding:clamp(12px,3vw,16px) clamp(14px,3vw,20px);} 
 
-  header .meta { 
+  .matrix-wrap{background:var(--white);border-radius:12px;border:1px solid var(--line);overflow:hidden;} 
 
-    font-size: 11px; 
+  .matrix-inner{padding:clamp(14px,3vw,24px) clamp(14px,3vw,28px);} 
 
-    color: #93B8D8; 
+  .matrix-grid{display:grid;grid-template-columns:30px 1fr;grid-template-rows:1fr 36px;gap:0;height:clamp(260px,50vw,400px);} 
 
-    text-align: right; 
+  .matrix-y-label{writing-mode:vertical-rl;transform:rotate(180deg);font-size:clamp(9px,1.8vw,11px);color:var(--slate);text-align:center;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;} 
 
-    line-height: 1.8; 
+  .matrix-x-label{grid-column:2;font-size:clamp(9px,1.8vw,11px);color:var(--slate);text-align:center;font-weight:500;text-transform:uppercase;letter-spacing:0.6px;padding-top:6px;} 
 
-  } 
+  .matrix-plot{position:relative;border:1.5px solid var(--line);border-radius:6px;background:linear-gradient(to right,rgba(46,116,181,0.04) 50%,transparent 50%),linear-gradient(to bottom,transparent 50%,rgba(46,116,181,0.04) 50%);overflow:visible;touch-action:none;} 
 
-  
+  .q-label{position:absolute;font-size:clamp(7px,1.5vw,9px);font-weight:600;text-transform:uppercase;letter-spacing:0.6px;opacity:0.45;pointer-events:none;} 
 
-  /* ── FILTERS ── */ 
+  .q-label.tl{top:6px;left:8px;color:var(--green);} 
 
-  .filter-bar { 
+  .q-label.tr{top:6px;right:8px;color:var(--amber);} 
 
-    background: var(--white); 
+  .q-label.bl{bottom:6px;left:8px;color:var(--blue);} 
 
-    border-bottom: 1px solid var(--line); 
+  .q-label.br{bottom:6px;right:8px;color:var(--red);} 
 
-    padding: 14px 48px; 
+  .matrix-plot::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line);} 
 
-    display: flex; 
+  .matrix-plot::after{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--line);} 
 
-    align-items: center; 
+  .dot{position:absolute;transform:translate(-50%,-50%);border-radius:50%;cursor:pointer;transition:all 0.2s;z-index:2;border:1.5px solid rgba(255,255,255,0.8);touch-action:manipulation;min-width:14px;min-height:14px;} 
 
-    gap: 10px; 
+  .dot:hover,.dot:active{z-index:10;transform:translate(-50%,-50%) scale(1.6);} 
 
-    flex-wrap: wrap; 
+  .dot.hidden{display:none;} 
 
-  } 
+  .tooltip{position:fixed;background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;font-size:clamp(11px,2.5vw,12px);max-width:min(280px,85vw);pointer-events:none;z-index:999;display:none;box-shadow:0 8px 30px rgba(0,0,0,0.25);line-height:1.6;} 
 
-  .filter-bar span { font-size: 11px; color: var(--slate); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-right: 4px; } 
+  .tooltip .tt-title{font-weight:600;font-size:clamp(12px,2.8vw,13px);margin-bottom:6px;} 
 
-  .filter-btn { 
+  .tooltip .tt-row{display:flex;justify-content:space-between;gap:10px;margin-top:3px;} 
 
-    padding: 5px 14px; 
+  .tooltip .tt-key{color:#93B8D8;font-size:clamp(10px,2vw,11px);} 
 
-    border-radius: 20px; 
+  .tooltip .tt-val{font-size:clamp(10px,2vw,11px);font-weight:500;} 
 
-    border: 1.5px solid var(--line); 
+  .init-list{display:flex;flex-direction:column;} 
 
-    background: transparent; 
+  .init-row{padding:12px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr;gap:6px;} 
 
-    font-family: 'DM Sans', sans-serif; 
+  .init-row:last-child{border-bottom:none;} 
 
-    font-size: 12px; 
+  .init-row .badges{display:flex;flex-wrap:wrap;gap:5px;} 
 
-    color: var(--slate); 
+  @media(min-width:600px){ 
 
-    cursor: pointer; 
+    .init-row{grid-template-columns:1fr auto auto auto;align-items:center;} 
 
-    transition: all 0.18s; 
-
-    font-weight: 400; 
+    .init-row .badges{display:contents;} 
 
   } 
 
-  .filter-btn:hover { border-color: var(--blue); color: var(--blue); } 
+  .init-row.hidden{display:none;} 
 
-  .filter-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 500; } 
+  .init-name{font-size:clamp(11px,2.5vw,12px);font-weight:500;color:var(--navy);} 
 
-  
+  .init-theme{font-size:clamp(9px,2vw,10px);color:var(--slate);margin-top:2px;} 
 
-  /* ── MAIN GRID ── */ 
+  .badge{font-size:clamp(9px,2vw,10px);font-weight:600;padding:3px 9px;border-radius:12px;white-space:nowrap;} 
 
-  .page { padding: 32px 48px 48px; } 
+  .badge-H{background:var(--green-bg);color:var(--green);} 
 
-  
+  .badge-M{background:var(--amber-bg);color:var(--amber);} 
 
-  /* ── KPI STRIP ── */ 
+  .badge-L{background:var(--red-bg);color:var(--red);} 
 
-  .kpi-strip { 
+  .badge-C{background:var(--darkred-bg);color:var(--darkred);} 
 
-    display: grid; 
+  .badge-S{background:var(--orange-bg);color:var(--orange);} 
 
-    grid-template-columns: repeat(8, 1fr); 
+  .bar-section{margin-bottom:14px;} 
 
-    gap: 12px; 
+  .bar-label{display:flex;justify-content:space-between;font-size:clamp(10px,2vw,11px);margin-bottom:5px;} 
 
-    margin-bottom: 32px; 
+  .bar-label .name{color:var(--navy);font-weight:500;} 
 
-  } 
+  .bar-label .count{color:var(--slate);} 
 
-  .kpi-card { 
+  .bar-track{background:var(--ice);border-radius:4px;height:8px;overflow:hidden;} 
 
-    background: var(--white); 
+  .bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease;} 
 
-    border-radius: 10px; 
+  .heat-grid{display:grid;grid-template-columns:70px repeat(4,1fr);gap:4px;font-size:clamp(9px,2vw,11px);} 
 
-    padding: 16px 14px; 
+  .heat-grid .hdr{font-weight:600;color:var(--slate);padding:3px;font-size:clamp(8px,1.8vw,10px);text-align:center;} 
 
-    border: 1px solid var(--line); 
+  .heat-grid .row-label{color:var(--navy);font-weight:500;padding:3px 0;display:flex;align-items:center;font-size:clamp(9px,1.8vw,11px);} 
 
-    cursor: pointer; 
+  .heat-cell{border-radius:5px;padding:5px 3px;text-align:center;font-weight:600;font-size:clamp(11px,2.5vw,13px);min-height:30px;display:flex;align-items:center;justify-content:center;} 
 
-    transition: all 0.2s; 
+  .hc-0{background:#F1F5F9;color:#CBD5E1;}.hc-1{background:#DBEAFE;color:#1E40AF;} 
 
-    position: relative; 
+  .hc-2{background:#FEF9C3;color:#854D0E;}.hc-3{background:#FEE2E2;color:#991B1B;}.hc-4{background:#991B1B;color:#fff;} 
 
-    overflow: hidden; 
+  .qw-list{display:flex;flex-direction:column;gap:8px;} 
 
-  } 
+  .qw-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:8px;background:var(--green-bg);border-left:3px solid var(--green);} 
 
-  .kpi-card::before { 
+  .qw-item .icon{font-size:clamp(12px,3vw,14px);margin-top:1px;flex-shrink:0;} 
 
-    content: ''; 
+  .qw-item .text{font-size:clamp(11px,2.5vw,12px);color:var(--navy);font-weight:500;line-height:1.4;} 
 
-    position: absolute; 
+  .qw-item .sub{font-size:clamp(10px,2vw,11px);color:var(--slate);margin-top:2px;} 
 
-    top: 0; left: 0; right: 0; 
+  .watch-item{background:var(--amber-bg);border-left-color:var(--amber);} 
 
-    height: 3px; 
-
-    background: var(--blue); 
-
-  } 
-
-  .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(31,56,100,0.12); } 
-
-  .kpi-card.active-cat::before { background: var(--navy); height: 4px; } 
-
-  .kpi-card.active-cat { box-shadow: 0 4px 16px rgba(31,56,100,0.18); } 
-
-  .kpi-card .num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--navy); line-height: 1; } 
-
-  .kpi-card .label { font-size: 10px; color: var(--slate); margin-top: 6px; line-height: 1.4; font-weight: 400; } 
-
-  .kpi-card .cat-icon { font-size: 16px; margin-bottom: 6px; } 
-
-  
-
-  /* ── TWO COLUMN ── */ 
-
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; } 
-
-  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; } 
-
-  
-
-  /* ── PANEL ── */ 
-
-  .panel { 
-
-    background: var(--white); 
-
-    border-radius: 12px; 
-
-    border: 1px solid var(--line); 
-
-    overflow: hidden; 
-
-  } 
-
-  .panel-header { 
-
-    padding: 16px 20px 12px; 
-
-    border-bottom: 1px solid var(--line); 
-
-    display: flex; 
-
-    align-items: center; 
-
-    justify-content: space-between; 
-
-  } 
-
-  .panel-header h2 { font-size: 13px; font-weight: 600; color: var(--navy); letter-spacing: -0.1px; } 
-
-  .panel-header .sub { font-size: 11px; color: #94A3B8; } 
-
-  .panel-body { padding: 16px 20px; } 
-
-  
-
-  /* ── MATRIX ── */ 
-
-  .matrix-wrap { 
-
-    background: var(--white); 
-
-    border-radius: 12px; 
-
-    border: 1px solid var(--line); 
-
-    overflow: hidden; 
-
-    margin-bottom: 24px; 
-
-  } 
-
-  .matrix-inner { 
-
-    padding: 24px 28px; 
-
-    position: relative; 
-
-  } 
-
-  .matrix-grid { 
-
-    display: grid; 
-
-    grid-template-columns: 40px 1fr; 
-
-    grid-template-rows: 1fr 40px; 
-
-    gap: 0; 
-
-    height: 420px; 
-
-  } 
-
-  .matrix-y-label { 
-
-    writing-mode: vertical-rl; 
-
-    transform: rotate(180deg); 
-
-    font-size: 11px; 
-
-    color: var(--slate); 
-
-    text-align: center; 
-
-    font-weight: 500; 
-
-    text-transform: uppercase; 
-
-    letter-spacing: 0.8px; 
-
-  } 
-
-  .matrix-x-label { 
-
-    grid-column: 2; 
-
-    font-size: 11px; 
-
-    color: var(--slate); 
-
-    text-align: center; 
-
-    font-weight: 500; 
-
-    text-transform: uppercase; 
-
-    letter-spacing: 0.8px; 
-
-    padding-top: 6px; 
-
-  } 
-
-  .matrix-plot { 
-
-    position: relative; 
-
-    border: 1.5px solid var(--line); 
-
-    border-radius: 6px; 
-
-    background: 
-
-      linear-gradient(to right, rgba(46,116,181,0.04) 50%, rgba(46,116,181,0.0) 50%), 
-
-      linear-gradient(to bottom, rgba(46,116,181,0.0) 50%, rgba(46,116,181,0.04) 50%); 
-
-    overflow: visible; 
-
-  } 
-
-  /* Quadrant labels */ 
-
-  .q-label { 
-
-    position: absolute; 
-
-    font-size: 9px; 
-
-    font-weight: 600; 
-
-    text-transform: uppercase; 
-
-    letter-spacing: 0.8px; 
-
-    opacity: 0.4; 
-
-    pointer-events: none; 
-
-  } 
-
-  .q-label.tl { top: 8px; left: 10px; color: var(--green); } 
-
-  .q-label.tr { top: 8px; right: 10px; color: var(--amber); } 
-
-  .q-label.bl { bottom: 8px; left: 10px; color: var(--blue); } 
-
-  .q-label.br { bottom: 8px; right: 10px; color: var(--red); } 
-
-  /* Crosshair */ 
-
-  .matrix-plot::before { 
-
-    content: ''; 
-
-    position: absolute; 
-
-    top: 50%; left: 0; right: 0; 
-
-    height: 1px; 
-
-    background: var(--line); 
-
-  } 
-
-  .matrix-plot::after { 
-
-    content: ''; 
-
-    position: absolute; 
-
-    left: 50%; top: 0; bottom: 0; 
-
-    width: 1px; 
-
-    background: var(--line); 
-
-  } 
-
-  
-
-  .dot { 
-
-    position: absolute; 
-
-    transform: translate(-50%, -50%); 
-
-    border-radius: 50%; 
-
-    cursor: pointer; 
-
-    transition: all 0.2s; 
-
-    z-index: 2; 
-
-    border: 1.5px solid rgba(255,255,255,0.8); 
-
-  } 
-
-  .dot:hover { z-index: 10; transform: translate(-50%, -50%) scale(1.5); } 
-
-  .dot.hidden { display: none; } 
-
-  
-
-  /* ── TOOLTIP ── */ 
-
-  .tooltip { 
-
-    position: fixed; 
-
-    background: var(--navy); 
-
-    color: #fff; 
-
-    border-radius: 8px; 
-
-    padding: 12px 16px; 
-
-    font-size: 12px; 
-
-    max-width: 280px; 
-
-    pointer-events: none; 
-
-    z-index: 999; 
-
-    display: none; 
-
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2); 
-
-    line-height: 1.6; 
-
-  } 
-
-  .tooltip .tt-title { font-weight: 600; font-size: 13px; margin-bottom: 6px; } 
-
-  .tooltip .tt-row { display: flex; justify-content: space-between; gap: 12px; margin-top: 3px; } 
-
-  .tooltip .tt-key { color: #93B8D8; font-size: 11px; } 
-
-  .tooltip .tt-val { font-size: 11px; font-weight: 500; } 
-
-  
-
-  /* ── INITIATIVE LIST ── */ 
-
-  .init-list { display: flex; flex-direction: column; gap: 0; } 
-
-  .init-row { 
-
-    padding: 11px 0; 
-
-    border-bottom: 1px solid var(--line); 
-
-    display: grid; 
-
-    grid-template-columns: 1fr auto auto auto; 
-
-    gap: 12px; 
-
-    align-items: center; 
-
-    transition: background 0.15s; 
-
-  } 
-
-  .init-row:last-child { border-bottom: none; } 
-
-  .init-row:hover { background: var(--ice); margin: 0 -20px; padding-left: 20px; padding-right: 20px; border-radius: 6px; } 
-
-  .init-row.hidden { display: none; } 
-
-  .init-name { font-size: 12px; font-weight: 500; color: var(--navy); } 
-
-  .init-theme { font-size: 10px; color: var(--slate); margin-top: 2px; } 
-
-  .badge { 
-
-    font-size: 10px; 
-
-    font-weight: 600; 
-
-    padding: 3px 9px; 
-
-    border-radius: 12px; 
-
-    white-space: nowrap; 
-
-  } 
-
-  .badge-H  { background: var(--green-bg);   color: var(--green);  } 
-
-  .badge-M  { background: var(--amber-bg);   color: var(--amber);  } 
-
-  .badge-L  { background: var(--red-bg);     color: var(--red);    } 
-
-  .badge-C  { background: var(--darkred-bg); color: var(--darkred);} 
-
-  .badge-S  { background: var(--orange-bg);  color: var(--orange); } 
-
-  .badge-MJ { background: var(--darkred-bg); color: var(--darkred);} 
-
-  
-
-  /* ── BARS ── */ 
-
-  .bar-section { margin-bottom: 14px; } 
-
-  .bar-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; } 
-
-  .bar-label .name { color: var(--navy); font-weight: 500; } 
-
-  .bar-label .count { color: var(--slate); } 
-
-  .bar-track { background: var(--ice); border-radius: 4px; height: 8px; overflow: hidden; } 
-
-  .bar-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; } 
-
-  
-
-  /* ── RISK HEAT ── */ 
-
-  .heat-grid { 
-
-    display: grid; 
-
-    grid-template-columns: 120px repeat(4, 1fr); 
-
-    gap: 4px; 
-
-    font-size: 11px; 
-
-  } 
-
-  .heat-grid .hdr { font-weight: 600; color: var(--slate); padding: 4px 6px; font-size: 10px; text-align: center; } 
-
-  .heat-grid .row-label { color: var(--navy); font-weight: 500; padding: 4px 0; display: flex; align-items: center; font-size: 11px; } 
-
-  .heat-cell { 
-
-    border-radius: 5px; 
-
-    padding: 6px 4px; 
-
-    text-align: center; 
-
-    font-weight: 600; 
-
-    font-size: 13px; 
-
-    min-height: 34px; 
-
-    display: flex; 
-
-    align-items: center; 
-
-    justify-content: center; 
-
-  } 
-
-  .hc-0 { background: #F1F5F9; color: #CBD5E1; } 
-
-  .hc-1 { background: #DBEAFE; color: #1E40AF; } 
-
-  .hc-2 { background: #FEF9C3; color: #854D0E; } 
-
-  .hc-3 { background: #FEE2E2; color: #991B1B; } 
-
-  .hc-4 { background: #991B1B; color: #fff; } 
-
-  
-
-  /* ── QUICK WIN BOX ── */ 
-
-  .qw-list { display: flex; flex-direction: column; gap: 8px; } 
-
-  .qw-item { 
-
-    display: flex; 
-
-    align-items: flex-start; 
-
-    gap: 10px; 
-
-    padding: 10px 12px; 
-
-    border-radius: 8px; 
-
-    background: var(--green-bg); 
-
-    border-left: 3px solid var(--green); 
-
-  } 
-
-  .qw-item .icon { font-size: 14px; margin-top: 1px; } 
-
-  .qw-item .text { font-size: 12px; color: var(--navy); font-weight: 500; line-height: 1.4; } 
-
-  .qw-item .sub  { font-size: 11px; color: var(--slate); margin-top: 2px; } 
-
-  
-
-  .watch-item { 
-
-    background: var(--amber-bg); 
-
-    border-left-color: var(--amber); 
-
-  } 
-
-  
-
-  /* ── FOOTER ── */ 
-
-  footer { 
-
-    text-align: center; 
-
-    padding: 20px 48px; 
-
-    font-size: 11px; 
-
-    color: #94A3B8; 
-
-    border-top: 1px solid var(--line); 
-
-  } 
+  footer{text-align:center;padding:20px var(--page-pad);font-size:clamp(10px,2vw,11px);color:#94A3B8;border-top:1px solid var(--line);} 
 
 </style> 
 
@@ -700,29 +210,19 @@
 
 <body> 
 
-  
-
 <header> 
 
   <div class="logo-block"> 
 
     <h1>SydPath Strategy Register</h1> 
 
-    <p>St Vincent's Pathology &nbsp;·&nbsp; Executive Dashboard &nbsp;·&nbsp; Workshop Output May 2026</p> 
+    <p>St Vincent's Pathology · Executive Dashboard · Workshop Output May 2026</p> 
 
   </div> 
 
-  <div class="meta"> 
-
-    39 Initiatives &nbsp;|&nbsp; 8 Categories<br> 
-
-    Source: Department Head Workshop Notes 
-
-  </div> 
+  <div class="meta">39 Initiatives | 8 Categories<br>Source: Department Head Workshop Notes</div> 
 
 </header> 
-
-  
 
 <div class="filter-bar"> 
 
@@ -730,131 +230,55 @@
 
   <button class="filter-btn active" data-cat="all">All</button> 
 
-  <button class="filter-btn" data-cat="vision">Vision & Leadership</button> 
+  <button class="filter-btn" data-cat="vision">Vision</button> 
 
-  <button class="filter-btn" data-cat="service">Service Delivery</button> 
+  <button class="filter-btn" data-cat="service">Service</button> 
 
-  <button class="filter-btn" data-cat="tech">Technology & IT</button> 
+  <button class="filter-btn" data-cat="tech">Technology</button> 
 
-  <button class="filter-btn" data-cat="workforce">Workforce & Culture</button> 
+  <button class="filter-btn" data-cat="workforce">Workforce</button> 
 
-  <button class="filter-btn" data-cat="growth">Partnerships & Growth</button> 
+  <button class="filter-btn" data-cat="growth">Growth</button> 
 
   <button class="filter-btn" data-cat="quality">Quality</button> 
 
   <button class="filter-btn" data-cat="financial">Financial</button> 
 
-  <button class="filter-btn" data-cat="comms">Communications</button> 
+  <button class="filter-btn" data-cat="comms">Comms</button> 
 
 </div> 
 
-  
-
 <div class="page"> 
 
-  
+  <div class="kpi-strip"> 
 
-  <!-- KPI STRIP --> 
+    <div class="kpi-card" data-cat="all"><div class="cat-icon">📋</div><div class="num">39</div><div class="label">Total Initiatives</div></div> 
 
-  <div class="kpi-strip" id="kpiStrip"> 
+    <div class="kpi-card" data-cat="vision"><div class="cat-icon">🎯</div><div class="num">3</div><div class="label">Vision & Leadership</div></div> 
 
-    <div class="kpi-card" data-cat="all"> 
+    <div class="kpi-card" data-cat="service"><div class="cat-icon">🏥</div><div class="num">6</div><div class="label">Service Delivery</div></div> 
 
-      <div class="cat-icon">📋</div> 
+    <div class="kpi-card" data-cat="tech"><div class="cat-icon">💻</div><div class="num">7</div><div class="label">Technology & IT</div></div> 
 
-      <div class="num" id="kpi-total">39</div> 
+    <div class="kpi-card" data-cat="workforce"><div class="cat-icon">👥</div><div class="num">7</div><div class="label">Workforce & Culture</div></div> 
 
-      <div class="label">Total initiatives</div> 
+    <div class="kpi-card" data-cat="growth"><div class="cat-icon">🚀</div><div class="num">6</div><div class="label">Partnerships & Growth</div></div> 
 
-    </div> 
+    <div class="kpi-card" data-cat="quality"><div class="cat-icon">✅</div><div class="num">4</div><div class="label">Quality</div></div> 
 
-    <div class="kpi-card" data-cat="vision"> 
-
-      <div class="cat-icon">🎯</div> 
-
-      <div class="num">3</div> 
-
-      <div class="label">Vision & Leadership</div> 
-
-    </div> 
-
-    <div class="kpi-card" data-cat="service"> 
-
-      <div class="cat-icon">🏥</div> 
-
-      <div class="num">6</div> 
-
-      <div class="label">Service Delivery</div> 
-
-    </div> 
-
-    <div class="kpi-card" data-cat="tech"> 
-
-      <div class="cat-icon">💻</div> 
-
-      <div class="num">7</div> 
-
-      <div class="label">Technology & IT</div> 
-
-    </div> 
-
-    <div class="kpi-card" data-cat="workforce"> 
-
-      <div class="cat-icon">👥</div> 
-
-      <div class="num">7</div> 
-
-      <div class="label">Workforce & Culture</div> 
-
-    </div> 
-
-    <div class="kpi-card" data-cat="growth"> 
-
-      <div class="cat-icon">🚀</div> 
-
-      <div class="num">6</div> 
-
-      <div class="label">Partnerships & Growth</div> 
-
-    </div> 
-
-    <div class="kpi-card" data-cat="quality"> 
-
-      <div class="cat-icon">✅</div> 
-
-      <div class="num">4</div> 
-
-      <div class="label">Quality</div> 
-
-    </div> 
-
-    <div class="kpi-card" data-cat="financial"> 
-
-      <div class="cat-icon">💰</div> 
-
-      <div class="num">3+3</div> 
-
-      <div class="label">Financial & Comms</div> 
-
-    </div> 
+    <div class="kpi-card" data-cat="financial"><div class="cat-icon">💰</div><div class="num">6</div><div class="label">Financial & Comms</div></div> 
 
   </div> 
 
-  
-
-  <!-- MATRIX + QUICK WINS --> 
-
-  <div class="two-col" style="grid-template-columns: 3fr 2fr;"> 
-
-  
+  <div class="two-col"> 
 
     <div class="matrix-wrap"> 
 
-      <div class="panel-header" style="padding:16px 28px 12px;"> 
+      <div class="panel-header"> 
 
-        <h2>Prioritisation Matrix — Strategic Alignment vs Effort</h2> 
+        <h2>Prioritisation Matrix — Alignment vs Effort</h2> 
 
-        <span class="sub">Bubble size = Cost. Hover for details.</span> 
+        <span class="sub">Bubble size = Cost · Tap for details</span> 
 
       </div> 
 
@@ -878,7 +302,7 @@
 
           <div></div> 
 
-          <div class="matrix-x-label">← Low Effort &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; High Effort →</div> 
+          <div class="matrix-x-label">← Low Effort · · · High Effort →</div> 
 
         </div> 
 
@@ -886,49 +310,21 @@
 
     </div> 
 
-  
-
     <div class="panel"> 
 
-      <div class="panel-header"> 
+      <div class="panel-header"><h2>⚡ Quick Wins</h2><span class="sub">High alignment · Low effort</span></div> 
 
-        <h2>Quick Wins</h2> 
+      <div class="panel-body"><div class="qw-list" id="quickWins"></div></div> 
 
-        <span class="sub">High alignment · Low effort</span> 
+      <div class="panel-header" style="border-top:1px solid var(--line);"><h2>⚠️ Watch List</h2><span class="sub">High risk if not done</span></div> 
 
-      </div> 
-
-      <div class="panel-body"> 
-
-        <div class="qw-list" id="quickWins"></div> 
-
-      </div> 
-
-      <div class="panel-header" style="border-top:1px solid var(--line);"> 
-
-        <h2>Watch List</h2> 
-
-        <span class="sub">High risk if not done</span> 
-
-      </div> 
-
-      <div class="panel-body"> 
-
-        <div class="qw-list" id="watchList"></div> 
-
-      </div> 
+      <div class="panel-body"><div class="qw-list" id="watchList"></div></div> 
 
     </div> 
 
   </div> 
 
-  
-
-  <!-- BARS + HEAT MAP --> 
-
   <div class="three-col"> 
-
-  
 
     <div class="panel"> 
 
@@ -938,8 +334,6 @@
 
     </div> 
 
-  
-
     <div class="panel"> 
 
       <div class="panel-header"><h2>Cost Distribution</h2><span class="sub">Investment required</span></div> 
@@ -948,677 +342,267 @@
 
     </div> 
 
-  
-
     <div class="panel"> 
 
       <div class="panel-header"><h2>Risk Heat Map</h2><span class="sub">Risk if not done × Category</span></div> 
 
-      <div class="panel-body" id="heatMap" style="padding:12px 16px;"></div> 
+      <div class="panel-body" id="heatMap" style="padding:12px 14px;"></div> 
 
     </div> 
 
   </div> 
-
-  
-
-  <!-- FULL INITIATIVE LIST --> 
 
   <div class="panel"> 
 
-    <div class="panel-header"> 
+    <div class="panel-header"><h2>All Initiatives</h2><span class="sub" id="listCount">Showing 39 of 39</span></div> 
 
-      <h2>All Initiatives</h2> 
-
-      <span class="sub" id="listCount">Showing 39 of 39</span> 
-
-    </div> 
-
-    <div class="panel-body"> 
-
-      <div class="init-list" id="initList"></div> 
-
-    </div> 
+    <div class="panel-body"><div class="init-list" id="initList"></div></div> 
 
   </div> 
 
-  
-
 </div> 
-
-  
 
 <footer>SydPath Strategy Dashboard · St Vincent's Hospital Network · Confidential — For Executive Review Only</footer> 
 
-  
-
 <div class="tooltip" id="tooltip"></div> 
-
-  
 
 <script> 
 
-const CAT_COLORS = { 
+const CC={vision:"#2E74B5",service:"#2D7D46",tech:"#6D28D9",workforce:"#B45309",growth:"#0E7490",quality:"#1F3864",financial:"#9D174D",comms:"#4B5563"}; 
 
-  vision:    "#2E74B5", 
+const INI=[ 
 
-  service:   "#2D7D46", 
+  {title:"Stable leadership triad",theme:"Vision & Leadership",cat:"vision",dept:"Executive",sa:3,effort:1,cost:1,risk:2,readiness:3}, 
 
-  tech:      "#6D28D9", 
+  {title:"SydPath 2030 gold standard vision",theme:"Vision & Leadership",cat:"vision",dept:"All Departments",sa:3,effort:2,cost:1,risk:2,readiness:3}, 
 
-  workforce: "#B45309", 
+  {title:"Mayo Clinic of Australia aspiration",theme:"Vision & Leadership",cat:"vision",dept:"Executive",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  growth:    "#0E7490", 
+  {title:"Standardised reporting approach",theme:"Service Delivery",cat:"service",dept:"All Labs",sa:3,effort:2,cost:1,risk:2,readiness:2}, 
 
-  quality:   "#1F3864", 
+  {title:"Electronic result delivery platform",theme:"Service Delivery",cat:"service",dept:"IT / Labs",sa:3,effort:2,cost:2,risk:3,readiness:2}, 
 
-  financial: "#9D174D", 
+  {title:"SydPath clinician portal / app",theme:"Service Delivery",cat:"service",dept:"IT / Clinical",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  comms:     "#4B5563", 
+  {title:"Personalised clinician service model",theme:"Service Delivery",cat:"service",dept:"Clinical / Admin",sa:3,effort:1,cost:1,risk:2,readiness:3}, 
 
-}; 
+  {title:"Pathologist hotline for clinicians",theme:"Service Delivery",cat:"service",dept:"AP / Clinical",sa:3,effort:2,cost:1,risk:2,readiness:2}, 
 
-  
+  {title:"Better website — ease of navigation",theme:"Service Delivery",cat:"service",dept:"Admin / IT",sa:2,effort:1,cost:1,risk:1,readiness:3}, 
 
-// SA: 1=Low,2=Medium,3=High  Effort: 1=Low,2=Medium,3=High 
+  {title:"Single whole-of-lab LIMS",theme:"Technology",cat:"tech",dept:"All Labs / IT",sa:3,effort:3,cost:4,risk:4,readiness:1}, 
 
-// Cost: 1=Low,2=Medium,3=High,4=Major  Risk: 1=Low,2=Medium,3=High,4=Critical 
+  {title:"IT infrastructure overhaul",theme:"Technology",cat:"tech",dept:"IT",sa:3,effort:3,cost:4,risk:4,readiness:1}, 
 
-// Readiness: 1=Low,2=Medium,3=High 
+  {title:"Digital pathology platform",theme:"Technology",cat:"tech",dept:"AP / IT",sa:3,effort:3,cost:4,risk:3,readiness:1}, 
 
-const INITIATIVES = [ 
+  {title:"Full lab automation",theme:"Technology",cat:"tech",dept:"All Labs",sa:3,effort:3,cost:4,risk:3,readiness:1}, 
 
-  // Vision 
+  {title:"AI integration (pre & post-analytical)",theme:"Technology",cat:"tech",dept:"IT / Clinical",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  { title:"Stable leadership triad", theme:"Vision & Leadership", cat:"vision", dept:"Executive", sa:3, effort:1, cost:1, risk:2, readiness:3, stImpact:"H" }, 
+  {title:"Integrated reporting & dashboards",theme:"Technology",cat:"tech",dept:"IT / Management",sa:3,effort:2,cost:2,risk:2,readiness:2}, 
 
-  { title:"SydPath 2030 gold standard vision", theme:"Vision & Leadership", cat:"vision", dept:"All Departments", sa:3, effort:2, cost:1, risk:2, readiness:3, stImpact:"H" }, 
+  {title:"Ordering / procurement app",theme:"Technology",cat:"tech",dept:"All Labs / Finance",sa:2,effort:2,cost:2,risk:2,readiness:2}, 
 
-  { title:"Mayo Clinic of Australia aspiration", theme:"Vision & Leadership", cat:"vision", dept:"Executive", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"S" }, 
+  {title:"Staff recognition program",theme:"Workforce & Culture",cat:"workforce",dept:"HR / All",sa:3,effort:1,cost:1,risk:2,readiness:3}, 
 
-  // Service 
+  {title:"Team building activities",theme:"Workforce & Culture",cat:"workforce",dept:"All Departments",sa:3,effort:1,cost:1,risk:2,readiness:3}, 
 
-  { title:"Standardised reporting approach", theme:"Service Delivery", cat:"service", dept:"All Labs", sa:3, effort:2, cost:1, risk:2, readiness:2, stImpact:"M" }, 
+  {title:"External conferences & education",theme:"Workforce & Culture",cat:"workforce",dept:"All Departments",sa:3,effort:1,cost:2,risk:2,readiness:2}, 
 
-  { title:"Electronic result delivery platform", theme:"Service Delivery", cat:"service", dept:"IT / Labs", sa:3, effort:2, cost:2, risk:3, readiness:2, stImpact:"H" }, 
+  {title:"Full-time on-site pathologist",theme:"Workforce & Culture",cat:"workforce",dept:"Clinical / AP",sa:3,effort:2,cost:3,risk:3,readiness:2}, 
 
-  { title:"SydPath clinician portal / app", theme:"Service Delivery", cat:"service", dept:"IT / Clinical", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"H" }, 
+  {title:"Transparency & informed decision-making",theme:"Workforce & Culture",cat:"workforce",dept:"Management",sa:3,effort:1,cost:1,risk:3,readiness:3}, 
 
-  { title:"Personalised clinician service model", theme:"Service Delivery", cat:"service", dept:"Clinical / Admin", sa:3, effort:1, cost:1, risk:2, readiness:3, stImpact:"M" }, 
+  {title:"HR management: recruiting & retention",theme:"Workforce & Culture",cat:"workforce",dept:"HR",sa:3,effort:2,cost:2,risk:3,readiness:2}, 
 
-  { title:"Pathologist hotline for clinicians", theme:"Service Delivery", cat:"service", dept:"AP / Clinical", sa:3, effort:2, cost:1, risk:2, readiness:2, stImpact:"M" }, 
+  {title:"Workforce stability & longevity",theme:"Workforce & Culture",cat:"workforce",dept:"HR / Management",sa:3,effort:2,cost:2,risk:2,readiness:2}, 
 
-  { title:"Better website — ease of navigation", theme:"Service Delivery", cat:"service", dept:"Admin / IT", sa:2, effort:1, cost:1, risk:1, readiness:3, stImpact:"L" }, 
+  {title:"Centralised Molecular Centre for SVHA",theme:"Growth & Partnerships",cat:"growth",dept:"Molecular / Executive",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  // Tech 
+  {title:"Clinical trials — larger panels",theme:"Growth & Partnerships",cat:"growth",dept:"Clinical Trials / Molecular",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  { title:"Single whole-of-lab LIMS", theme:"Technology", cat:"tech", dept:"All Labs / IT", sa:3, effort:3, cost:4, risk:4, readiness:1, stImpact:"S" }, 
+  {title:"Advertise services across state boundaries",theme:"Growth & Partnerships",cat:"growth",dept:"Marketing / Executive",sa:3,effort:1,cost:1,risk:2,readiness:2}, 
 
-  { title:"IT infrastructure overhaul", theme:"Technology", cat:"tech", dept:"IT", sa:3, effort:3, cost:4, risk:4, readiness:1, stImpact:"S" }, 
+  {title:"Partner with SVHM facilities (NSW)",theme:"Growth & Partnerships",cat:"growth",dept:"Executive / Clinical",sa:3,effort:2,cost:1,risk:2,readiness:2}, 
 
-  { title:"Digital pathology platform", theme:"Technology", cat:"tech", dept:"AP / IT", sa:3, effort:3, cost:4, risk:3, readiness:1, stImpact:"H" }, 
+  {title:"Expand beyond cancer genetics",theme:"Growth & Partnerships",cat:"growth",dept:"Molecular / Clinical",sa:3,effort:3,cost:3,risk:2,readiness:1}, 
 
-  { title:"Full lab automation", theme:"Technology", cat:"tech", dept:"All Labs", sa:3, effort:3, cost:4, risk:3, readiness:1, stImpact:"S" }, 
+  {title:"Bigger private market share",theme:"Growth & Partnerships",cat:"growth",dept:"Executive / Collections",sa:3,effort:2,cost:2,risk:3,readiness:2}, 
 
-  { title:"AI integration (pre & post-analytical)", theme:"Technology", cat:"tech", dept:"IT / Clinical", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"H" }, 
+  {title:"General SydPath protocols documentation",theme:"Quality",cat:"quality",dept:"Quality / All Labs",sa:3,effort:2,cost:1,risk:2,readiness:2}, 
 
-  { title:"Integrated reporting & dashboards", theme:"Technology", cat:"tech", dept:"IT / Management", sa:3, effort:2, cost:2, risk:2, readiness:2, stImpact:"M" }, 
+  {title:"TDM panel development",theme:"Quality",cat:"quality",dept:"Biochemistry / Clinical",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  { title:"Ordering / procurement app", theme:"Technology", cat:"tech", dept:"All Labs / Finance", sa:2, effort:2, cost:2, risk:2, readiness:2, stImpact:"M" }, 
+  {title:"Sendaway rationalisation",theme:"Quality",cat:"quality",dept:"All Labs / Finance",sa:3,effort:2,cost:2,risk:2,readiness:2}, 
 
-  // Workforce 
+  {title:"Point-of-care testing centre (TDM)",theme:"Quality",cat:"quality",dept:"Clinical / Executive",sa:3,effort:3,cost:3,risk:3,readiness:1}, 
 
-  { title:"Staff recognition program", theme:"Workforce & Culture", cat:"workforce", dept:"HR / All", sa:3, effort:1, cost:1, risk:2, readiness:3, stImpact:"H" }, 
+  {title:"Capital works plan of works upgrade",theme:"Financial",cat:"financial",dept:"Executive / Facilities",sa:3,effort:3,cost:4,risk:3,readiness:1}, 
 
-  { title:"Team building activities", theme:"Workforce & Culture", cat:"workforce", dept:"All Departments", sa:3, effort:1, cost:1, risk:2, readiness:3, stImpact:"H" }, 
+  {title:"HR plan for SydPath",theme:"Financial / HR",cat:"financial",dept:"HR / Executive",sa:3,effort:2,cost:2,risk:3,readiness:2}, 
 
-  { title:"External conferences & education", theme:"Workforce & Culture", cat:"workforce", dept:"All Departments", sa:3, effort:1, cost:2, risk:2, readiness:2, stImpact:"H" }, 
+  {title:"Realistic financial planning",theme:"Financial",cat:"financial",dept:"Executive / Finance",sa:3,effort:1,cost:1,risk:2,readiness:3}, 
 
-  { title:"Full-time on-site pathologist", theme:"Workforce & Culture", cat:"workforce", dept:"Clinical / AP", sa:3, effort:2, cost:3, risk:3, readiness:2, stImpact:"H" }, 
+  {title:"Website redevelopment",theme:"Communications",cat:"comms",dept:"IT / Admin",sa:2,effort:1,cost:1,risk:1,readiness:3}, 
 
-  { title:"Transparency & informed decision-making", theme:"Workforce & Culture", cat:"workforce", dept:"Management", sa:3, effort:1, cost:1, risk:3, readiness:3, stImpact:"H" }, 
+  {title:"Social media presence (LinkedIn)",theme:"Communications",cat:"comms",dept:"Admin / Executive",sa:2,effort:1,cost:1,risk:1,readiness:3}, 
 
-  { title:"HR management: recruiting & retention", theme:"Workforce & Culture", cat:"workforce", dept:"HR", sa:3, effort:2, cost:2, risk:3, readiness:2, stImpact:"S" }, 
-
-  { title:"Workforce stability & longevity", theme:"Workforce & Culture", cat:"workforce", dept:"HR / Management", sa:3, effort:2, cost:2, risk:2, readiness:2, stImpact:"H" }, 
-
-  // Growth 
-
-  { title:"Centralised Molecular Centre for SVHA", theme:"Growth & Partnerships", cat:"growth", dept:"Molecular / Executive", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"S" }, 
-
-  { title:"Clinical trials — larger panels", theme:"Growth & Partnerships", cat:"growth", dept:"Clinical Trials / Molecular", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"H" }, 
-
-  { title:"Advertise services across state boundaries", theme:"Growth & Partnerships", cat:"growth", dept:"Marketing / Executive", sa:3, effort:1, cost:1, risk:2, readiness:2, stImpact:"M" }, 
-
-  { title:"Partner with SVHM facilities (NSW)", theme:"Growth & Partnerships", cat:"growth", dept:"Executive / Clinical", sa:3, effort:2, cost:1, risk:2, readiness:2, stImpact:"M" }, 
-
-  { title:"Expand beyond cancer genetics", theme:"Growth & Partnerships", cat:"growth", dept:"Molecular / Clinical", sa:3, effort:3, cost:3, risk:2, readiness:1, stImpact:"H" }, 
-
-  { title:"Bigger private market share", theme:"Growth & Partnerships", cat:"growth", dept:"Executive / Collections", sa:3, effort:2, cost:2, risk:3, readiness:2, stImpact:"S" }, 
-
-  // Quality 
-
-  { title:"General SydPath protocols documentation", theme:"Quality", cat:"quality", dept:"Quality / All Labs", sa:3, effort:2, cost:1, risk:2, readiness:2, stImpact:"M" }, 
-
-  { title:"TDM panel development", theme:"Quality", cat:"quality", dept:"Biochemistry / Clinical", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"H" }, 
-
-  { title:"Sendaway rationalisation", theme:"Quality", cat:"quality", dept:"All Labs / Finance", sa:3, effort:2, cost:2, risk:2, readiness:2, stImpact:"M" }, 
-
-  { title:"Point-of-care testing centre (TDM)", theme:"Quality", cat:"quality", dept:"Clinical / Executive", sa:3, effort:3, cost:3, risk:3, readiness:1, stImpact:"H" }, 
-
-  // Financial 
-
-  { title:"Capital works plan of works upgrade", theme:"Financial", cat:"financial", dept:"Executive / Facilities", sa:3, effort:3, cost:4, risk:3, readiness:1, stImpact:"M" }, 
-
-  { title:"HR plan for SydPath", theme:"Financial / HR", cat:"financial", dept:"HR / Executive", sa:3, effort:2, cost:2, risk:3, readiness:2, stImpact:"S" }, 
-
-  { title:"Realistic financial planning", theme:"Financial", cat:"financial", dept:"Executive / Finance", sa:3, effort:1, cost:1, risk:2, readiness:3, stImpact:"M" }, 
-
-  // Comms 
-
-  { title:"Website redevelopment", theme:"Communications", cat:"comms", dept:"IT / Admin", sa:2, effort:1, cost:1, risk:1, readiness:3, stImpact:"L" }, 
-
-  { title:"Social media presence (LinkedIn)", theme:"Communications", cat:"comms", dept:"Admin / Executive", sa:2, effort:1, cost:1, risk:1, readiness:3, stImpact:"L" }, 
-
-  { title:"Internal transparency communications", theme:"Communications", cat:"comms", dept:"Management / All", sa:3, effort:1, cost:1, risk:3, readiness:3, stImpact:"H" }, 
+  {title:"Internal transparency communications",theme:"Communications",cat:"comms",dept:"Management / All",sa:3,effort:1,cost:1,risk:3,readiness:3}, 
 
 ]; 
 
-  
+const RL=(n,t)=>t==='cost'?['','Low','Medium','High','Major'][n]||'':['','Low','Medium','High','Critical'][n]||''; 
 
-function badgeClass(val) { 
+const RDL=n=>['','Low','Medium','High'][n]||''; 
 
-  if (!val) return ''; 
+const BC=v=>({H:'badge-H',M:'badge-M',L:'badge-L',C:'badge-C',S:'badge-S'}[v]||''); 
 
-  const v = val.toString().toUpperCase(); 
+const SC=n=>['','L','M','H'][n]||'M'; 
 
-  if (v === 'H' || v === 'HIGH')       return 'badge-H'; 
+const RC=n=>['','L','M','H','C'][n]||'M'; 
 
-  if (v === 'M' || v === 'MEDIUM')     return 'badge-M'; 
+const tt=document.getElementById('tooltip'); 
 
-  if (v === 'L' || v === 'LOW')        return 'badge-L'; 
+const plot=document.getElementById('matrixPlot'); 
 
-  if (v === 'C' || v === 'CRITICAL')   return 'badge-C'; 
+const used={}; 
 
-  if (v === 'S' || v === 'SIGNIFICANT')return 'badge-S'; 
+INI.forEach((d,i)=>{ 
 
-  if (v === 'MJ'|| v === 'MAJOR')      return 'badge-MJ'; 
+  const bX=(d.effort-1)/2,bY=1-(d.sa-1)/2,k=`${d.effort}_${d.sa}`; 
 
-  return ''; 
+  used[k]=used[k]||0;const off=used[k]++; 
 
-} 
+  const jX=bX+(off%3-1)*0.06+(Math.random()-0.5)*0.03; 
 
-function ratingLabel(n, type) { 
+  const jY=bY+Math.floor(off/3)*0.07+(Math.random()-0.5)*0.03; 
 
-  if (type === 'cost') { 
+  const x=Math.max(4,Math.min(96,jX*100)),y=Math.max(4,Math.min(96,jY*100)); 
 
-    return ['','Low','Medium','High','Major'][n] || ''; 
+  const sz=Math.max(14,[0,11,14,17,21][d.cost]||12); 
 
-  } 
+  const dot=document.createElement('div'); 
 
-  return ['','Low','Medium','High','Critical'][n] || ''; 
+  dot.className='dot';dot.dataset.cat=d.cat;dot.dataset.idx=i; 
 
-} 
+  dot.style.cssText=`left:${x}%;top:${y}%;width:${sz}px;height:${sz}px;background:${CC[d.cat]};opacity:0.85;`; 
 
-function readinessLabel(n) { return ['','Low','Medium','High'][n]||''; } 
+  const show=(px,py)=>{ 
 
-function impactLabel(v) { 
+    tt.style.display='block'; 
 
-  return {H:'High',M:'Medium',L:'Low',S:'Significant',C:'Critical',MJ:'Major'}[v]||v; 
-
-} 
-
-  
-
-let currentCat = 'all'; 
-
-  
-
-// ── MATRIX ──────────────────────────────────────────────────────────────────── 
-
-const plot = document.getElementById('matrixPlot'); 
-
-const tt   = document.getElementById('tooltip'); 
-
-  
-
-// Jitter to avoid overlap 
-
-const used = {}; 
-
-INITIATIVES.forEach((d, i) => { 
-
-  const baseX = ((d.effort - 1) / 2);   // 0=left, 1=right 
-
-  const baseY = 1 - ((d.sa - 1) / 2);   // 0=top, 1=bottom (inverted) 
-
-  const key = `${d.effort}_${d.sa}`; 
-
-  used[key] = (used[key] || 0); 
-
-  const offset = used[key]; 
-
-  used[key]++; 
-
-  
-
-  const jX = baseX + (offset % 3 - 1) * 0.06 + (Math.random() - 0.5) * 0.04; 
-
-  const jY = baseY + (Math.floor(offset / 3) - 0) * 0.07 + (Math.random() - 0.5) * 0.04; 
-
-  
-
-  const xPct = Math.max(4, Math.min(96, jX * 100)); 
-
-  const yPct = Math.max(4, Math.min(96, jY * 100)); 
-
-  
-
-  const size = [0, 9, 12, 15, 19][d.cost] || 10; 
-
-  const color = CAT_COLORS[d.cat] || '#555'; 
-
-  
-
-  const dot = document.createElement('div'); 
-
-  dot.className = 'dot'; 
-
-  dot.dataset.cat = d.cat; 
-
-  dot.dataset.idx = i; 
-
-  dot.style.cssText = ` 
-
-    left:${xPct}%; top:${yPct}%; 
-
-    width:${size}px; height:${size}px; 
-
-    background:${color}; 
-
-    opacity:0.85; 
-
-  `; 
-
-  
-
-  dot.addEventListener('mouseenter', (e) => { 
-
-    tt.style.display = 'block'; 
-
-    tt.innerHTML = ` 
-
-      <div class="tt-title">${d.title}</div> 
+    tt.innerHTML=`<div class="tt-title">${d.title}</div> 
 
       <div class="tt-row"><span class="tt-key">Theme</span><span class="tt-val">${d.theme}</span></div> 
 
       <div class="tt-row"><span class="tt-key">Dept</span><span class="tt-val">${d.dept}</span></div> 
 
-      <div class="tt-row"><span class="tt-key">Strategic Alignment</span><span class="tt-val">${ratingLabel(d.sa,'sa')}</span></div> 
+      <div class="tt-row"><span class="tt-key">Alignment</span><span class="tt-val">${RL(d.sa,'sa')}</span></div> 
 
-      <div class="tt-row"><span class="tt-key">Effort</span><span class="tt-val">${ratingLabel(d.effort,'effort')}</span></div> 
+      <div class="tt-row"><span class="tt-key">Effort</span><span class="tt-val">${RL(d.effort,'ef')}</span></div> 
 
-      <div class="tt-row"><span class="tt-key">Cost</span><span class="tt-val">${ratingLabel(d.cost,'cost')}</span></div> 
+      <div class="tt-row"><span class="tt-key">Cost</span><span class="tt-val">${RL(d.cost,'cost')}</span></div> 
 
-      <div class="tt-row"><span class="tt-key">Readiness</span><span class="tt-val">${readinessLabel(d.readiness)}</span></div> 
+      <div class="tt-row"><span class="tt-key">Readiness</span><span class="tt-val">${RDL(d.readiness)}</span></div> 
 
-      <div class="tt-row"><span class="tt-key">Risk if not done</span><span class="tt-val">${ratingLabel(d.risk,'risk')}</span></div> 
+      <div class="tt-row"><span class="tt-key">Risk if not done</span><span class="tt-val">${RL(d.risk,'risk')}</span></div>`; 
 
-    `; 
+    tt.style.left=Math.min(px+14,window.innerWidth-300)+'px'; 
 
-  }); 
+    tt.style.top=Math.max(py-40,8)+'px'; 
 
-  dot.addEventListener('mousemove', (e) => { 
+  }; 
 
-    tt.style.left = (e.clientX + 14) + 'px'; 
+  dot.addEventListener('mouseenter',e=>show(e.clientX,e.clientY)); 
 
-    tt.style.top  = (e.clientY - 40) + 'px'; 
+  dot.addEventListener('mousemove',e=>show(e.clientX,e.clientY)); 
 
-  }); 
+  dot.addEventListener('mouseleave',()=>{tt.style.display='none';}); 
 
-  dot.addEventListener('mouseleave', () => { tt.style.display = 'none'; }); 
+  dot.addEventListener('touchstart',e=>{e.preventDefault();const t=e.touches[0];show(t.clientX,t.clientY);},{passive:false}); 
 
-  
+  dot.addEventListener('touchend',()=>{setTimeout(()=>{tt.style.display='none';},2000);}); 
 
   plot.appendChild(dot); 
 
 }); 
 
-  
+document.addEventListener('touchstart',e=>{if(!e.target.classList.contains('dot'))tt.style.display='none';}); 
 
-// ── QUICK WINS ──────────────────────────────────────────────────────────────── 
+function renderQW(cat){ 
 
-function renderQuickWins(cat) { 
+  const f=cat==='all'?INI:INI.filter(d=>d.cat===cat); 
 
-  const qwEl = document.getElementById('quickWins'); 
+  const qw=f.filter(d=>d.sa===3&&d.effort===1).slice(0,4); 
 
-  const wlEl = document.getElementById('watchList'); 
+  const wl=f.filter(d=>d.risk>=3).sort((a,b)=>b.risk-a.risk).slice(0,4); 
 
-  const filtered = cat === 'all' ? INITIATIVES : INITIATIVES.filter(d => d.cat === cat); 
+  document.getElementById('quickWins').innerHTML=qw.map(d=>`<div class="qw-item"><div class="icon">⚡</div><div><div class="text">${d.title}</div><div class="sub">${d.theme} · ${d.dept}</div></div></div>`).join('')||'<div style="font-size:12px;color:#94A3B8;">None in filter</div>'; 
 
-  
-
-  const quickWins = filtered.filter(d => d.sa === 3 && d.effort === 1).slice(0, 4); 
-
-  const watchList = filtered.filter(d => d.risk >= 3).sort((a,b) => b.risk-a.risk).slice(0, 4); 
-
-  
-
-  qwEl.innerHTML = quickWins.map(d => ` 
-
-    <div class="qw-item"> 
-
-      <div class="icon">⚡</div> 
-
-      <div> 
-
-        <div class="text">${d.title}</div> 
-
-        <div class="sub">${d.theme} · ${d.dept}</div> 
-
-      </div> 
-
-    </div> 
-
-  `).join('') || '<div style="font-size:12px;color:#94A3B8;">None in current filter</div>'; 
-
-  
-
-  wlEl.innerHTML = watchList.map(d => ` 
-
-    <div class="qw-item watch-item"> 
-
-      <div class="icon">⚠️</div> 
-
-      <div> 
-
-        <div class="text">${d.title}</div> 
-
-        <div class="sub">Risk: ${ratingLabel(d.risk,'risk')} · ${d.dept}</div> 
-
-      </div> 
-
-    </div> 
-
-  `).join('') || '<div style="font-size:12px;color:#94A3B8;">None in current filter</div>'; 
+  document.getElementById('watchList').innerHTML=wl.map(d=>`<div class="qw-item watch-item"><div class="icon">⚠️</div><div><div class="text">${d.title}</div><div class="sub">Risk: ${RL(d.risk,'risk')} · ${d.dept}</div></div></div>`).join('')||'<div style="font-size:12px;color:#94A3B8;">None in filter</div>'; 
 
 } 
 
-  
+function renderRB(cat){ 
 
-// ── READINESS BARS ──────────────────────────────────────────────────────────── 
+  const cats=cat==='all'?['vision','service','tech','workforce','growth','quality','financial','comms']:[cat]; 
 
-function renderReadinessBars(cat) { 
+  const lb={vision:'Vision',service:'Service',tech:'Technology',workforce:'Workforce',growth:'Growth',quality:'Quality',financial:'Financial',comms:'Comms'}; 
 
-  const el = document.getElementById('readinessBars'); 
-
-  const cats = cat === 'all' 
-
-    ? ['vision','service','tech','workforce','growth','quality','financial','comms'] 
-
-    : [cat]; 
-
-  const catLabels = {vision:'Vision',service:'Service',tech:'Technology',workforce:'Workforce',growth:'Growth',quality:'Quality',financial:'Financial',comms:'Comms'}; 
-
-  const catColors  = CAT_COLORS; 
-
-  
-
-  el.innerHTML = cats.map(c => { 
-
-    const items = INITIATIVES.filter(d => d.cat === c); 
-
-    const highReady = items.filter(d => d.readiness === 3).length; 
-
-    const pct = items.length ? Math.round(highReady / items.length * 100) : 0; 
-
-    return ` 
-
-      <div class="bar-section"> 
-
-        <div class="bar-label"><span class="name">${catLabels[c]}</span><span class="count">${highReady}/${items.length} ready</span></div> 
-
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${catColors[c]};"></div></div> 
-
-      </div> 
-
-    `; 
-
-  }).join(''); 
+  document.getElementById('readinessBars').innerHTML=cats.map(c=>{const it=INI.filter(d=>d.cat===c);const n=it.filter(d=>d.readiness===3).length;const p=it.length?Math.round(n/it.length*100):0;return`<div class="bar-section"><div class="bar-label"><span class="name">${lb[c]}</span><span class="count">${n}/${it.length} ready</span></div><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${CC[c]};"></div></div></div>`;}).join(''); 
 
 } 
 
-  
+function renderCB(cat){ 
 
-// ── COST BARS ───────────────────────────────────────────────────────────────── 
+  const f=cat==='all'?INI:INI.filter(d=>d.cat===cat);const lb={1:'Low',2:'Medium',3:'High',4:'Major'};const cl={1:'#2D7D46',2:'#B45309',3:'#C0392B',4:'#7F1D1D'};const tot=f.length||1; 
 
-function renderCostBars(cat) { 
-
-  const el = document.getElementById('costBars'); 
-
-  const filtered = cat === 'all' ? INITIATIVES : INITIATIVES.filter(d => d.cat === cat); 
-
-  const buckets = {1:'Low',2:'Medium',3:'High',4:'Major'}; 
-
-  const bcolors  = {1:'#2D7D46',2:'#B45309',3:'#C0392B',4:'#7F1D1D'}; 
-
-  const total = filtered.length || 1; 
-
-  
-
-  el.innerHTML = [4,3,2,1].map(level => { 
-
-    const count = filtered.filter(d => d.cost === level).length; 
-
-    const pct = Math.round(count / total * 100); 
-
-    return ` 
-
-      <div class="bar-section"> 
-
-        <div class="bar-label"><span class="name">${buckets[level]}</span><span class="count">${count} initiatives</span></div> 
-
-        <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${bcolors[level]};"></div></div> 
-
-      </div> 
-
-    `; 
-
-  }).join(''); 
+  document.getElementById('costBars').innerHTML=[4,3,2,1].map(lv=>{const n=f.filter(d=>d.cost===lv).length;return`<div class="bar-section"><div class="bar-label"><span class="name">${lb[lv]}</span><span class="count">${n} initiatives</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(n/tot*100)}%;background:${cl[lv]};"></div></div></div>`;}).join(''); 
 
 } 
 
-  
+function renderHM(cat){ 
 
-// ── HEAT MAP ────────────────────────────────────────────────────────────────── 
+  const ac=['vision','service','tech','workforce','growth','quality','financial','comms']; 
 
-function renderHeatMap(cat) { 
+  const sh={vision:'Vision',service:'Service',tech:'Tech',workforce:'WF',growth:'Growth',quality:'Quality',financial:'Fin',comms:'Comms'}; 
 
-  const el = document.getElementById('heatMap'); 
+  const shown=cat==='all'?ac:[cat]; 
 
-  const cats = ['vision','service','tech','workforce','growth','quality','financial','comms']; 
+  const hc=n=>['hc-0','hc-1','hc-2','hc-3','hc-4'][Math.min(n,4)]; 
 
-  const catShort = {vision:'Vision',service:'Service',tech:'Tech',workforce:'WF',growth:'Growth',quality:'Quality',financial:'Fin',comms:'Comms'}; 
+  const rows=shown.map(c=>`<div class="row-label">${sh[c]}</div>`+[1,2,3,4].map(r=>{const n=INI.filter(d=>d.cat===c&&d.risk===r).length;return`<div class="heat-cell ${hc(n)}">${n||''}</div>`;}).join('')).join(''); 
 
-  const risks = [1,2,3,4]; 
-
-  const riskLabels = {1:'Low',2:'Med',3:'High',4:'Critical'}; 
-
-  const filtered = cat === 'all' ? cats : [cat]; 
-
-  
-
-  const hcClass = (n) => { 
-
-    if (n === 0) return 'hc-0'; 
-
-    if (n === 1) return 'hc-1'; 
-
-    if (n === 2) return 'hc-2'; 
-
-    if (n <= 3)  return 'hc-3'; 
-
-    return 'hc-4'; 
-
-  }; 
-
-  
-
-  const headers = ['', ...risks.map(r => `<div class="hdr">${riskLabels[r]}</div>`)].join(''); 
-
-  const rows = filtered.map(c => { 
-
-    const cells = risks.map(r => { 
-
-      const n = INITIATIVES.filter(d => d.cat === c && d.risk === r).length; 
-
-      return `<div class="heat-cell ${hcClass(n)}">${n || ''}</div>`; 
-
-    }).join(''); 
-
-    return `<div class="row-label">${catShort[c]}</div>${cells}`; 
-
-  }).join(''); 
-
-  
-
-  el.innerHTML = ` 
-
-    <div class="heat-grid" style="grid-template-columns: ${cat==='all'?'72px':'120px'} repeat(4,1fr);"> 
-
-      <div></div> 
-
-      <div class="hdr">Low</div> 
-
-      <div class="hdr">Medium</div> 
-
-      <div class="hdr">High</div> 
-
-      <div class="hdr">Critical</div> 
-
-      ${rows} 
-
-    </div> 
-
-    <div style="font-size:10px;color:#94A3B8;margin-top:10px;">Number of initiatives per risk level</div> 
-
-  `; 
+  document.getElementById('heatMap').innerHTML=`<div class="heat-grid" style="grid-template-columns:${cat==='all'?'65px':'100px'} repeat(4,1fr);"><div></div><div class="hdr">Low</div><div class="hdr">Med</div><div class="hdr">High</div><div class="hdr">Crit</div>${rows}</div><div style="font-size:9px;color:#94A3B8;margin-top:8px;">Initiatives per risk level</div>`; 
 
 } 
 
-  
+function renderIL(cat){ 
 
-// ── INITIATIVE LIST ─────────────────────────────────────────────────────────── 
+  const f=cat==='all'?INI:INI.filter(d=>d.cat===cat); 
 
-function renderInitList(cat) { 
+  document.getElementById('listCount').textContent=`Showing ${f.length} of ${INI.length}`; 
 
-  const el = document.getElementById('initList'); 
-
-  const countEl = document.getElementById('listCount'); 
-
-  const filtered = cat === 'all' ? INITIATIVES : INITIATIVES.filter(d => d.cat === cat); 
-
-  
-
-  countEl.textContent = `Showing ${filtered.length} of ${INITIATIVES.length}`; 
-
-  
-
-  el.innerHTML = filtered.map((d,i) => ` 
-
-    <div class="init-row" data-cat="${d.cat}"> 
-
-      <div> 
-
-        <div class="init-name">${d.title}</div> 
-
-        <div class="init-theme">${d.theme} · ${d.dept}</div> 
-
-      </div> 
-
-      <span class="badge ${badgeClass(d.sa===3?'H':d.sa===2?'M':'L')}">${ratingLabel(d.sa,'sa')} Alignment</span> 
-
-      <span class="badge ${badgeClass(d.readiness===3?'H':d.readiness===2?'M':'L')}">${readinessLabel(d.readiness)} Ready</span> 
-
-      <span class="badge ${badgeClass(d.risk===4?'C':d.risk===3?'H':d.risk===2?'M':'L')}">${ratingLabel(d.risk,'risk')} Risk</span> 
-
-    </div> 
-
-  `).join(''); 
+  document.getElementById('initList').innerHTML=f.map(d=>`<div class="init-row" data-cat="${d.cat}"><div><div class="init-name">${d.title}</div><div class="init-theme">${d.theme} · ${d.dept}</div></div><div class="badges"><span class="badge ${BC(SC(d.sa))}">${RL(d.sa,'sa')} Align</span><span class="badge ${BC(SC(d.readiness))}">${RDL(d.readiness)} Ready</span><span class="badge ${BC(RC(d.risk))}">${RL(d.risk,'risk')} Risk</span></div></div>`).join(''); 
 
 } 
 
-  
+function applyFilter(cat){ 
 
-// ── FILTER LOGIC ────────────────────────────────────────────────────────────── 
+  document.querySelectorAll('.dot').forEach(d=>d.classList.toggle('hidden',cat!=='all'&&d.dataset.cat!==cat)); 
 
-function applyFilter(cat) { 
+  document.querySelectorAll('.kpi-card').forEach(c=>c.classList.toggle('active-cat',c.dataset.cat===cat)); 
 
-  currentCat = cat; 
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat===cat)); 
 
-  
-
-  // Dots 
-
-  document.querySelectorAll('.dot').forEach(dot => { 
-
-    dot.classList.toggle('hidden', cat !== 'all' && dot.dataset.cat !== cat); 
-
-  }); 
-
-  
-
-  // KPI cards 
-
-  document.querySelectorAll('.kpi-card').forEach(c => { 
-
-    c.classList.toggle('active-cat', c.dataset.cat === cat); 
-
-  }); 
-
-  
-
-  // Buttons 
-
-  document.querySelectorAll('.filter-btn').forEach(b => { 
-
-    b.classList.toggle('active', b.dataset.cat === cat); 
-
-  }); 
-
-  
-
-  renderQuickWins(cat); 
-
-  renderReadinessBars(cat); 
-
-  renderCostBars(cat); 
-
-  renderHeatMap(cat); 
-
-  renderInitList(cat); 
+  renderQW(cat);renderRB(cat);renderCB(cat);renderHM(cat);renderIL(cat); 
 
 } 
 
-  
+document.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>applyFilter(b.dataset.cat))); 
 
-// Events 
-
-document.querySelectorAll('.filter-btn').forEach(btn => { 
-
-  btn.addEventListener('click', () => applyFilter(btn.dataset.cat)); 
-
-}); 
-
-document.querySelectorAll('.kpi-card').forEach(card => { 
-
-  card.addEventListener('click', () => applyFilter(card.dataset.cat)); 
-
-}); 
-
-  
-
-// Init 
+document.querySelectorAll('.kpi-card').forEach(c=>c.addEventListener('click',()=>applyFilter(c.dataset.cat))); 
 
 applyFilter('all'); 
 
@@ -1627,3 +611,4 @@ applyFilter('all');
 </body> 
 
 </html> 
+
